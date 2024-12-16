@@ -1,11 +1,13 @@
 [build]
 builder = "nixpacks"
 buildCommand = """
-echo "Database URL:" $DATABASE_URL && \
   npm install -g pnpm && \
   cd packages/database && \
+  sleep 5 && \
   pnpm db:migrate && \
+  sleep 5 && \
   pnpm db:generate && \
+  sleep 5 && \
   cd ../.. && \
   pnpm install && \
   pnpm db:generate && \
