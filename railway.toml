@@ -1,0 +1,15 @@
+[build]
+builder = "nixpacks"
+buildCommand = """
+pnpm install && \
+pnpm db:generate && \
+pnpm build
+"""
+
+[deploy]
+startCommand = "pnpm start:server"
+healthcheckPath = "/api/health"
+healthcheckTimeout = 100
+
+[nixpacks]
+node_version = "16"

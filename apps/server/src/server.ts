@@ -2,6 +2,7 @@ import express from 'express'
 import { PrismaClient } from '@prisma/client'
 import influencerRoutes from './features/influencers/routes/influencerRoutes'
 import employeeRoutes from './features/employee/routes/employeeRoutes'
+import cors from 'cors'
 
 export const prisma = new PrismaClient()
 
@@ -13,6 +14,13 @@ const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
 })
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    credentials: true,
+  }),
+)
 
 async function gracefulShutdown(signal: string) {
   console.log(`Received ${signal}. Starting graceful shutdown...`)
@@ -41,3 +49,7 @@ process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
 
 app.use('/api/influencers', influencerRoutes)
 app.use('/api/employees', employeeRoutes)
+
+app.get('/api/health', (_req, res) => {
+  res.status(200).json({ status: 'healthy' })
+})
