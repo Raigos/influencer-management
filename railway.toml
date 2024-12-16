@@ -11,4 +11,3 @@ healthcheckTimeout = 100
 [variables]
 NIXPACKS_NODE_VERSION = "18"
 NIXPACKS_PKGS = "nodejs pnpm"
-VITE_API_URL = "http://localhost:4000"

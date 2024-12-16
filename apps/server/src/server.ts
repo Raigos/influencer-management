@@ -6,41 +6,12 @@ import cors from 'cors'
 
 export const prisma = new PrismaClient()
 
-prisma
-  .$connect()
-  .then(() => {
-    console.log('Successfully connected to database')
-  })
-  .catch(error => {
-    console.error('Failed to connect to database:', error)
-    process.exit(1)
-  })
-
-const app = express()
-
-app.set('trust proxy', 1)
-
-app.use(express.json())
-
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port ${PORT}`)
-})
-
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-    credentials: true,
-  }),
-)
-
 async function gracefulShutdown(signal: string) {
   console.log(`Received ${signal}. Starting graceful shutdown...`)
 
   try {
     await prisma.$disconnect()
     console.log('Successfully closed database connection')
-
     process.exit(0)
   } catch (error) {
     console.error('Error during shutdown:', error)
@@ -48,27 +19,56 @@ async function gracefulShutdown(signal: string) {
   }
 }
 
-// Handle normal termination
-process.on('exit', () => {
-  console.log('Exiting application...')
-})
+async function startServer() {
+  try {
+    await prisma.$connect()
+    console.log('Successfully connected to database')
 
-// Handle Ctrl+C
-process.on('SIGINT', () => gracefulShutdown('SIGINT'))
+    const app = express()
+    const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000
 
-// Handle system termination requests
-process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
+    // Middleware setup
+    app.set('trust proxy', 1)
+    app.use(express.json())
+    app.use(
+      cors({
+        origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+        credentials: true,
+      }),
+    )
 
-app.use('/api/influencers', influencerRoutes)
-app.use('/api/employees', employeeRoutes)
+    // Routes
+    app.use('/api/influencers', influencerRoutes)
+    app.use('/api/employees', employeeRoutes)
 
-app.get('/api/health', (_req, res) => {
-  res.status(200).json({ status: 'healthy' })
-})
+    app.get('/api/health', (_req, res) => {
+      res.status(200).json({ status: 'healthy' })
+    })
 
-app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  console.error('Unhandled error:', err)
-  res.status(500).json({
-    error: process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message,
-  })
-})
+    // Error handling middleware
+    app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+      console.error('Unhandled error:', err)
+      res.status(500).json({
+        error: process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message,
+      })
+    })
+
+    // Start server only after all setup is complete
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`Server is running on port ${PORT}`)
+    })
+
+    // Process handlers
+    process.on('exit', () => {
+      console.log('Exiting application...')
+    })
+
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'))
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
+  } catch (error) {
+    console.error('Failed to start server:', error)
+    process.exit(1)
+  }
+}
+
+startServer()
