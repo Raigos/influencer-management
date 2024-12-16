@@ -1,6 +1,10 @@
 [build]
 builder = "nixpacks"
+<<<<<<< HEAD
 buildCommand = "npm install -g pnpm && pnpm install && pnpm db:migrate && pnpm db:generate && pnpm build:shared & pnpm build:server && pnpm star:server  "
+=======
+buildCommand = "npm install -g pnpm && pnpm install && pnpm build"
+>>>>>>> origin/main
 
 [deploy]
 startCommand = "pnpm start"
