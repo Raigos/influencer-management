@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "type-check": "tsc --build --verbose",
-    "build": "tsc --build",
     "clean": "tsc --build --clean",
     "db:migrate": "pnpm --filter @influencer-management/database prisma migrate dev",
     "db:generate": "pnpm --filter @influencer-management/database prisma generate",
@@ -15,7 +14,11 @@
     "seed": "        pnpm --filter @influencer-management/server seed",
     "dev:server": "  pnpm --filter @influencer-management/server dev",
     "start:server": "pnpm --filter @influencer-management/server start",
-    "dev:client": "  pnpm --filter @influencer-management/client dev"
+    "dev:client": "  pnpm --filter @influencer-management/client dev",
+    "build": "       pnpm build:shared && pnpm build:server",
+    "build:shared": "pnpm --filter @influencer-management/shared build",
+    "build:server": "pnpm --filter @influencer-management/server build",
+    "start": "       pnpm --filter @influencer-management/server start"
   },
   "keywords": [],
   "author": "",

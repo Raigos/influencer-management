@@ -1,15 +1,9 @@
 [build]
 builder = "nixpacks"
-buildCommand = """
-pnpm install &&
-pnpm --filter @influencer-management/shared build &&
-pnpm --filter @influencer-management/server build
-"""
+buildCommand = "pnpm install && pnpm build"
 
 [deploy]
-startCommand = "cd apps/server && pnpm start"
+startCommand = "pnpm start"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 100
 
-[nixpacks]
-node_version = "16"
