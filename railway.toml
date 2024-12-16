@@ -1,16 +1,17 @@
 [build]
 builder = "nixpacks"
 buildCommand = """
-npm install -g pnpm && \
-cd packages/database && \
-pnpm db:migrate && \
-pnpm db:generate && \
-cd ../.. && \
-pnpm install && \
-pnpm db:generate && \
-pnpm build:shared && \
-pnpm build:server && \
-pnpm start:server
+echo "Database URL:" $DATABASE_URL && \
+  npm install -g pnpm && \
+  cd packages/database && \
+  pnpm db:migrate && \
+  pnpm db:generate && \
+  cd ../.. && \
+  pnpm install && \
+  pnpm db:generate && \
+  pnpm build:shared && \
+  pnpm build:server && \
+  pnpm start:server
 """
 
 
