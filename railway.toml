@@ -4,11 +4,11 @@ buildCommand = "npm install -g pnpm && pnpm install && pnpm db:generate && pnpm 
 
 
 [deploy]
-startCommand = "pnpm db:migrate && PORT=$SERVER_PORT pnpm start:server & pnpm --filter @influencer-management/client preview --host 0.0.0.0 --port $PORT"
+startCommand = "PORT=4000 pnpm start:server & PORT=8080 pnpm --filter @influencer-management/client preview --host 0.0.0.0"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 100
 
 [variables]
 NIXPACKS_NODE_VERSION = "18"
 NIXPACKS_PKGS = "nodejs pnpm"
-SERVER_PORT = "4000"
+RAILWAY_INTERNAL_URL = "http://localhost:$PORT"

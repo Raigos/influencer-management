@@ -41,8 +41,15 @@ async function startServer() {
     app.use('/api/influencers', influencerRoutes)
     app.use('/api/employees', employeeRoutes)
 
-    app.get('/api/health', (_req, res) => {
-      res.status(200).json({ status: 'healthy' })
+    app.get('/api/health', async (_req, res) => {
+      try {
+        // Test database connection
+        await prisma.$queryRaw`SELECT 1`
+        res.status(200).json({ status: 'healthy' })
+      } catch (error) {
+        console.error('Health check failed:', error)
+        res.status(500).json({ status: 'unhealthy', error: 'Database connection failed' })
+      }
     })
 
     // Error handling middleware
