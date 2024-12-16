@@ -1,13 +1,14 @@
 [build]
 builder = "nixpacks"
-buildCommand = "npm install -g pnpm && pnpm install && pnpm db:generate && pnpm build:shared && pnpm build:server"
+buildCommand = "npm install -g pnpm && pnpm install && pnpm db:generate && pnpm build:shared && pnpm build:server && pnpm --filter @influencer-management/client build"
 
 
 [deploy]
-startCommand = "pnpm db:migrate && pnpm start:server"
+startCommand = "pnpm db:migrate && pnpm start:server & pnpm --filter @influencer-management/client preview --host 0.0.0.0 --port $PORT"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 100
 
 [variables]
 NIXPACKS_NODE_VERSION = "18"
 NIXPACKS_PKGS = "nodejs pnpm"
+VITE_API_URL = "http://localhost:4000"
