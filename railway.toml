@@ -1,13 +1,10 @@
 [build]
 builder = "nixpacks"
-buildCommand = """
-pnpm install && \
-pnpm db:generate && \
-pnpm build
-"""
+
+buildCommand = "cd apps/server && pnpm install && pnpm build"
 
 [deploy]
-startCommand = "pnpm start:server"
+startCommand = "cd apps/server && pnpm start"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 100
 
