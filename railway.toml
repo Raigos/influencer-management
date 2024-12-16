@@ -5,13 +5,15 @@ npm install -g pnpm && \
 pnpm install && \
 pnpm db:generate && \
 pnpm build:shared && \
-pnpm build:server && \
-pnpm start:server
+pnpm build:server
 """
 
 
 [deploy]
-startCommand = "pnpm start"
+startCommand = """
+pnpm db:migrate && \
+pnpm start:server
+"""
 healthcheckPath = "/api/health"
 healthcheckTimeout = 100
 
