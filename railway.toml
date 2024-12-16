@@ -1,19 +1,10 @@
 [build]
 builder = "nixpacks"
-buildCommand = """
-npm install -g pnpm && \
-pnpm install && \
-pnpm db:generate && \
-pnpm build:shared && \
-pnpm build:server
-"""
+buildCommand = "npm install -g pnpm && pnpm install && pnpm db:generate && pnpm build:shared && pnpm build:server"
 
 
 [deploy]
-startCommand = """
-pnpm db:migrate && \
-pnpm start:server
-"""
+startCommand = "pnpm db:migrate && pnpm start:server"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 100
 
