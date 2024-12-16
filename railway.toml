@@ -2,10 +2,9 @@
 builder = "nixpacks"
 buildCommand = """
 pnpm install &&
-cd packages/shared && pnpm build &&
-cd ../../apps/server && pnpm build
+pnpm --filter @influencer-management/shared build &&
+pnpm --filter @influencer-management/server build
 """
-
 
 [deploy]
 startCommand = "cd apps/server && pnpm start"
