@@ -29,7 +29,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: process.env.RAILWAY_INTERNAL_URL || 'http://localhost:4000',
+        target: 'http://0.0.0.0:4000',
         changeOrigin: true,
         secure: false,
       },
