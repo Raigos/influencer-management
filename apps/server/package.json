@@ -1,0 +1,19 @@
+{
+  "name": "@influencer-management/server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "seed": "ts-node src/scripts/seed.ts",
+    "dev": "npx ts-node src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@influencer-management/shared": "workspace:*",
+    "@prisma/client": "^6.0.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0"
+  }
+}

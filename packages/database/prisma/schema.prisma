@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Employee {
+  id          String      @id @default(uuid())
+  firstName   String      @db.VarChar(50)
+  lastName    String      @db.VarChar(50)
+  email       String      @unique
+  influencers Influencer[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Influencer {
+  id                 String               @id @default(uuid())
+  firstName          String               @db.VarChar(50)
+  lastName           String               @db.VarChar(50)
+  socialMediaAccounts SocialMediaAccount[]
+  manager            Employee?            @relation(fields: [managerId], references: [id])
+  managerId          String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+}
+
+model SocialMediaAccount {
+  id           String     @id @default(uuid())
+  platform     Platform
+  username     String
+  influencer   Influencer @relation(fields: [influencerId], references: [id], onDelete: Cascade)
+  influencerId String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([influencerId, platform, username])
+}
+
+enum Platform {
+  INSTAGRAM
+  TIKTOK
+}

@@ -1,0 +1,34 @@
+//root
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "esModuleInterop": true,
+    "lib": [
+      "ES2020"
+    ],
+    "module": "CommonJS",
+    "skipLibCheck": true,
+    "moduleResolution": "Node",
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "paths": {
+      "@influencer-management/shared/*": [
+        "./packages/shared/*"
+      ]
+    }
+  },
+  "exclude": [
+    "**/node_modules",
+    "**/dist"
+  ]
+}
