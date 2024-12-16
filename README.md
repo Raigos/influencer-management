@@ -41,7 +41,7 @@ Before starting the project, ensure you have the following installed:
 
 3. Set up environment variables:
 
-- Create a `.env` file in the server directory
+- Create a `.env` file in the prisma directory
 - Add the following variables:
 - password is your postgres password
   ```

@@ -9,5 +9,8 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@prisma/client": "6.0.1"
   }
 }

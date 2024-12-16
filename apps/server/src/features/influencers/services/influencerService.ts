@@ -1,10 +1,11 @@
 import { CreateInfluencerData, InfluencerUpdateData } from '../types'
 import { InfluencerFilters } from '@influencer-management/shared'
 import { prisma } from '../../../server'
+import { Prisma } from '@prisma/client'
 
 export async function createInfluencer(data: CreateInfluencerData) {
   // Use Transaction for multiple updates
-  return prisma.$transaction(async tx => {
+  return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const newInfluencer = await tx.influencer.create({
       data: {
         firstName: data.firstName,
