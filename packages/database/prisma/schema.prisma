@@ -9,29 +9,30 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Employee {
-  id          String      @id @default(uuid())
-  firstName   String      @db.VarChar(50)
-  lastName    String      @db.VarChar(50)
-  email       String      @unique
+  id          String       @id @default(uuid())
+  firstName   String       @db.VarChar(50)
+  lastName    String       @db.VarChar(50)
+  email       String       @unique
   influencers Influencer[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model Influencer {
-  id                 String               @id @default(uuid())
-  firstName          String               @db.VarChar(50)
-  lastName           String               @db.VarChar(50)
+  id                  String               @id @default(uuid())
+  firstName           String               @db.VarChar(50)
+  lastName            String               @db.VarChar(50)
   socialMediaAccounts SocialMediaAccount[]
-  manager            Employee?            @relation(fields: [managerId], references: [id])
-  managerId          String?
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
+  manager             Employee?            @relation(fields: [managerId], references: [id])
+  managerId           String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
 }
 
 model SocialMediaAccount {
