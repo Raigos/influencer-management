@@ -8,7 +8,6 @@ export const prisma = new PrismaClient()
 
 async function gracefulShutdown(signal: string) {
   console.log(`Received ${signal}. Starting graceful shutdown...`)
-
   try {
     await prisma.$disconnect()
     console.log('Successfully closed database connection')
@@ -78,4 +77,6 @@ async function startServer() {
   }
 }
 
-startServer()
+if (require.main === module) {
+  startServer()
+}

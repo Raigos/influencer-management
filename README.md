@@ -4,6 +4,10 @@ A comprehensive system for managing influencers and their social media accounts.
 monorepo using pnpm workspaces, containing both the frontend client application and backend server, along with shared
 packages.
 
+# Project is live!
+
+You can see it here: https://influencer-management-production.up.railway.app/list
+
 ## Project Structure
 
 The repository is organized into the following main components:
