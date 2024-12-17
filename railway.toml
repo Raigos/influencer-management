@@ -4,7 +4,7 @@ buildCommand = "npm install -g pnpm && pnpm install && pnpm db:generate && pnpm 
 
 
 [deploy]
-startCommand = "pnpm db:migrate && (PORT=4000 pnpm start:server & (sleep 10 && pnpm seed)) & PORT=8080 pnpm --filter @influencer-management/client preview --host 0.0.0.0"
+startCommand = "pnpm db:migrate && pnpm seed && (PORT=4000 pnpm start:server & sleep 5 && PORT=8080 pnpm --filter @influencer-management/client preview --host 0.0.0.0)"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 100
 

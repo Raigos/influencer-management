@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "seed": "ts-node src/scripts/seed.ts",
+    "seed:dev": "ts-node src/scripts/seed.ts",
+    "seed": "node dist/scripts/seed.js",
     "dev": "npx ts-node src/server.ts",
     "start": "node dist/server.js",
     "build": "tsc"
