@@ -1,9 +1,22 @@
-import { Platform } from '@prisma/client'
+import { Platform, PrismaClient } from '@prisma/client'
 import { createInfluencer } from '../features/influencers/services/influencerService'
 import { createEmployee } from '../features/employee/services/employeeService'
 
+const prisma = new PrismaClient()
+
+async function cleanDatabase() {
+  console.log('Cleaning existing data...')
+  await prisma.socialMediaAccount.deleteMany()
+  await prisma.influencer.deleteMany()
+  await prisma.employee.deleteMany()
+  console.log('Database cleaned successfully')
+}
+
 async function seed() {
   try {
+    await prisma.$connect()
+    await cleanDatabase()
+
     console.log('Creating employees...')
     const employee1 = await createEmployee({
       firstName: 'Evelin',
@@ -35,7 +48,6 @@ async function seed() {
       socialMediaAccounts: [{ platform: Platform.INSTAGRAM, username: 'alexchenphoto' }],
     })
 
-    // An influencer without a manager
     const influencer3 = await createInfluencer({
       firstName: 'Hanna',
       lastName: 'Garcia',
@@ -49,6 +61,9 @@ async function seed() {
   } catch (error) {
     console.error('❌ Seeding failed:', error)
     throw error
+  } finally {
+    await prisma.$disconnect()
+    process.exit(0)
   }
 }
 
